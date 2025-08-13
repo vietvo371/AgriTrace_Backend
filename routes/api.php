@@ -36,20 +36,25 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Mobile specific endpoints
     Route::get('/user/profile', [AuthController::class, 'profile'])->name('user.profile');
+    Route::put('/user/profile', [AuthController::class, 'updateProfile']);
 
     // Auth
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/profile', [AuthController::class, 'profile']);
-    Route::put('/auth/profile', [AuthController::class, 'updateProfile']);
 
     // Categories
+    Route::get('/categories/all-public', [CategoryController::class, 'allPublic']);
     Route::apiResource('categories', CategoryController::class);
 
     // Products
     Route::apiResource('products', ProductController::class);
 
     // Batches
+    Route::get('/batches/all-farmer', [BatchController::class, 'allFarmerBatches']);
+    Route::get('/batches/details/{batch}', [BatchController::class, 'details']);
     Route::apiResource('batches', BatchController::class);
+
+    // Regenerate QR
     Route::post('/batches/{batch}/regenerate-qr', [BatchController::class, 'regenerateQr']);
     Route::get('/batches/{batch}/access-logs', [BatchController::class, 'accessLogs']);
 

@@ -22,15 +22,19 @@ class StoreBatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => ['required', 'integer', 'exists:products,id'],
-            'weight' => ['required', 'min:0'],
-            'variety' => ['nullable', 'string', 'max:255'],
-            'planting_date' => ['nullable', 'date'],
-            'harvest_date' => ['nullable', 'date', 'after_or_equal:planting_date'],
-            'cultivation_method' => ['nullable', 'string', 'max:255'],
-            'location' => ['nullable', 'string', 'max:255'],
-            'gps_coordinates' => ['nullable', 'string', 'max:255'],
-            'qr_expiry' => ['nullable', 'date', 'after:now'],
+            'category_id' => ['required', 'exists:categories,id'],
+            'product_name' => ['required', 'string', 'max:255'],
+            'weight' => ['required', 'string'],
+            'variety' => ['required', 'string', 'max:255'],
+            'planting_date' => ['required', 'date'],
+            'harvest_date' => ['required', 'date', 'after_or_equal:planting_date'],
+            'cultivation_method' => ['required', 'string', 'max:255'],
+            'location' => ['required', 'array'],
+            'location.latitude' => ['required', 'numeric'],
+            'location.longitude' => ['required', 'numeric'],
+            'farm_image' => ['required', 'image', 'max:5120'], // max 5MB
+            'product_image' => ['required', 'image', 'max:5120'],
+            'farmer_image' => ['nullable', 'image', 'max:5120'],
         ];
     }
 }

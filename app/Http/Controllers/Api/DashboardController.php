@@ -19,18 +19,26 @@ class DashboardController extends Controller
         $lastMonth = $now->copy()->subMonth();
 
         // Batches stats
-        $totalBatches = Batch::count();
+        $totalBatches = Batch::where('status', 'active')
+        ->where('customer_id', auth()->user()->id)->count();
         $lastMonthBatches = Batch::where('created_at', '<=', $lastMonth)->count();
         $batchesTrend = $this->calculateTrend($totalBatches, $lastMonthBatches);
 
         // QR scans stats
-        $totalScans = QrAccessLog::count();
-        $lastMonthScans = QrAccessLog::where('created_at', '<=', $lastMonth)->count();
+        $totalScans = QrAccessLog::where('batch_id', auth()->user()->id)->count();
+        $lastMonthScans = QrAccessLog::join('batches', 'qr_access_logs.batch_id', '=', 'batches.id')
+        ->where('batches.customer_id', auth()->user()->id)
+        ->where('qr_access_logs.created_at', '<=', $lastMonth)
+        ->count();
         $scansTrend = $this->calculateTrend($totalScans, $lastMonthScans);
 
         // Products stats
-        $totalProducts = Product::count();
-        $lastMonthProducts = Product::where('created_at', '<=', $lastMonth)->count();
+        $totalProducts = Product::join('batches', 'products.id', '=', 'batches.product_id')
+        ->where('batches.customer_id', auth()->user()->id)->count();
+        $lastMonthProducts = Product::join('batches', 'products.id', '=', 'batches.product_id')
+        ->where('batches.customer_id', auth()->user()->id)
+        ->where('products.created_at', '<=', $lastMonth)
+        ->count();
         $productsTrend = $this->calculateTrend($totalProducts, $lastMonthProducts);
 
         return response()->json([
@@ -91,9 +99,10 @@ class DashboardController extends Controller
     public function dashboardBatches(): AnonymousResourceCollection
     {
         $batches = Batch::with(['customer', 'product', 'reviews', 'images'])
-            ->latest()
-            ->take(5)
-            ->get();
+        ->where('customer_id', auth()->user()->id)
+        ->latest()
+        ->take(5)
+        ->get();
 
         return BatchResource::collection($batches);
     }

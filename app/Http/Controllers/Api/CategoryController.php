@@ -63,4 +63,12 @@ class CategoryController extends Controller
             'message' => 'Category deleted successfully',
         ]);
     }
+
+    public function allPublic(): AnonymousResourceCollection
+    {
+        $categories = Category::with('products')
+            ->get();
+
+        return CategoryResource::collection($categories);
+    }
 }
