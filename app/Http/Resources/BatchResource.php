@@ -16,7 +16,7 @@ class BatchResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'customer_id' => $this->customer_id,
             'product_id' => $this->product_id,
             'batch_code' => $this->batch_code,
             'weight' => $this->weight,
@@ -31,8 +31,9 @@ class BatchResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             // Include relationships when needed
-            'user' => new UserResource($this->whenLoaded('user')),
+            'customer' => new CustomerResource($this->whenLoaded('customer')),
             'product' => new ProductResource($this->whenLoaded('product')),
+            'category_name' => $this->whenLoaded('product') ? $this->product->category->name : null,
             'reviews' => ReviewResource::collection($this->whenLoaded('reviews')),
             'images' => BatchImageResource::collection($this->whenLoaded('images')),
             'access_logs' => QrAccessLogResource::collection($this->whenLoaded('accessLogs')),

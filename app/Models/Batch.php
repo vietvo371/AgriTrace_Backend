@@ -15,7 +15,7 @@ class Batch extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'user_id',
+        'customer_id',
         'product_id',
         'batch_code',
         'weight',
@@ -44,9 +44,9 @@ class Batch extends Model
     /**
      * Get the user that owns the batch.
      */
-    public function user()
+    public function customer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Customer::class);
     }
 
     /**

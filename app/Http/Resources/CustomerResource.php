@@ -14,6 +14,17 @@ class CustomerResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // For mobile profile endpoint
+        if ($request->routeIs('user.profile')) {
+            return [
+                'full_name' => $this->full_name,
+                'role' => $this->role,
+                'farm_name' => $this->farm_name ?? '',
+                'profile_image' => $this->profile_image ?? '',
+            ];
+        }
+
+        // For other endpoints
         return [
             'id' => $this->id,
             'full_name' => $this->full_name,
@@ -21,6 +32,7 @@ class CustomerResource extends JsonResource
             'phone_number' => $this->phone_number,
             'address' => $this->address,
             'profile_image' => $this->profile_image,
+            'farm_name' => $this->farm_name,
             'role' => $this->role,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

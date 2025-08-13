@@ -23,8 +23,7 @@ class StoreBatchRequest extends FormRequest
     {
         return [
             'product_id' => ['required', 'integer', 'exists:products,id'],
-            'batch_code' => ['required', 'string', 'max:255', 'unique:batches'],
-            'weight' => ['required', 'numeric', 'min:0'],
+            'weight' => ['required', 'min:0'],
             'variety' => ['nullable', 'string', 'max:255'],
             'planting_date' => ['nullable', 'date'],
             'harvest_date' => ['nullable', 'date', 'after_or_equal:planting_date'],

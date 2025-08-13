@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\QrAccessLogController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +26,17 @@ Route::get('/batches/{batch}/qr', [BatchController::class, 'showQr']);
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
+    Route::get('/dashboard/batches', [DashboardController::class, 'dashboardBatches']);
+
+    Route::get('/batches/recent', [DashboardController::class, 'recentBatches']);
+    Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount']);
+
+    // Mobile specific endpoints
+    Route::get('/user/profile', [AuthController::class, 'profile'])->name('user.profile');
+
     // Auth
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/profile', [AuthController::class, 'profile']);
