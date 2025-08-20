@@ -11,16 +11,6 @@ class CustomerFactory extends Factory
 
     public function definition(): array
     {
-        $avatars = [
-            'avatars/farmer1.jpg',
-            'avatars/farmer2.jpg',
-            'avatars/farmer3.jpg',
-            'avatars/farmer4.jpg',
-            'avatars/farmer5.jpg',
-            'avatars/cooperative1.jpg',
-            'avatars/cooperative2.jpg',
-            'avatars/cooperative3.jpg'
-        ];
 
         $addresses = [
             'Hanoi, Vietnam',
@@ -39,7 +29,7 @@ class CustomerFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'password_hash' => bcrypt('password'),
             'address' => $this->faker->randomElement($addresses),
-            'profile_image' => $this->faker->randomElement($avatars),
+            'profile_image' => 'https://ui-avatars.com/api/?name=' . urlencode($this->faker->name()) . '&background=random&size=200',
             'role' => $this->faker->randomElement(['farmer', 'cooperative']),
         ];
     }
@@ -52,7 +42,7 @@ class CustomerFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'role' => 'farmer',
-                'profile_image' => 'avatars/farmer' . rand(1, 5) . '.jpg'
+                'profile_image' => 'https://ui-avatars.com/api/?name=' . urlencode($this->faker->name()) . '&background=random&size=200'
             ];
         });
     }
@@ -65,7 +55,7 @@ class CustomerFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'role' => 'cooperative',
-                'profile_image' => 'avatars/cooperative' . rand(1, 3) . '.jpg'
+                'profile_image' => 'https://ui-avatars.com/api/?name=' . urlencode($this->faker->name()) . '&background=random&size=200'
             ];
         });
     }

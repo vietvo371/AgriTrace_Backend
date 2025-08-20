@@ -25,7 +25,9 @@ class DashboardController extends Controller
         $batchesTrend = $this->calculateTrend($totalBatches, $lastMonthBatches);
 
         // QR scans stats
-        $totalScans = QrAccessLog::where('batch_id', auth()->user()->id)->count();
+        $totalScans = QrAccessLog::whereHas('batch', function ($query) {
+            $query->where('customer_id', auth()->user()->id);
+        })->count();
         $lastMonthScans = QrAccessLog::join('batches', 'qr_access_logs.batch_id', '=', 'batches.id')
         ->where('batches.customer_id', auth()->user()->id)
         ->where('qr_access_logs.created_at', '<=', $lastMonth)

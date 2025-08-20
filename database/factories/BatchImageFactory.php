@@ -52,7 +52,7 @@ class BatchImageFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'image_type' => 'farm',
-                'image_url' => 'batch-images/farm_' . $this->faker->numberBetween(1, 4) . '.jpg'
+                'image_url' => 'https://ui-avatars.com/api/?name=' . urlencode($this->faker->name()) . '&background=random&size=200'
             ];
         });
     }
@@ -72,7 +72,8 @@ class BatchImageFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'image_type' => 'farmer',
-                'image_url' => 'batch-images/farmer_' . $this->faker->numberBetween(1, 4) . '.jpg'
+                'image_url' => 'https://ui-avatars.com/api/?name=' . urlencode($this->faker->name()) . '&background=random&size=200'
+
             ];
         });
     }
